@@ -14,6 +14,9 @@ Access apidocs from:
 http://[you_server]:[your_port]/apidocs                                         
 ``` 
 
+![flasgger](https://user-images.githubusercontent.com/6903521/31655652-20ba62ec-b35c-11e7-94d5-5cb07e8769e1.png)
+
+
 #### [NGINX](https://www.nginx.com/resources/wiki/)
 NGINX is a free, open-source, high-performance HTTP server and reverse proxy, as well as an IMAP/POP3 proxy server. NGINX is known for its high performance, stability, rich feature set, simple configuration, and low resource consumption.
 
