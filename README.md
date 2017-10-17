@@ -1,6 +1,6 @@
 # Simple RESTful Web Service Demo                                              
 ## Nginx + Flask + uWSGI + flasgger                                                    
-https://circleci.com/gh/pppk520/simple_restful.svg?style=shield&circle-token=951da21360c1407c4cb3fe7b583b342faae1e096
+[![CircleCI](https://circleci.com/gh/pppk520/simple_restful.svg?style=shield&circle-token=951da21360c1407c4cb3fe7b583b342faae1e096)](https://circleci.com/gh/pppk520/simple_restful)
 
 ## Docker Run                                                                      
 ```bash                                                                         
