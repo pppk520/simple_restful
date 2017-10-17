@@ -27,5 +27,7 @@ run:
 test:
 	docker run --rm \
 	  -v $(HOST_PATH):$(GUEST_PATH) \
+      -v $(HOST_PATH)/config:/tmp/config \
+      -v $(HOST_PATH)/config/nginx-myws.conf:/etc/nginx/conf.d/nginx-myws.conf \
 	  $(DOCKER_OPTIONS) -it $(REPO):$(TAG) /bin/bash -c $(CMD_TEST)
 

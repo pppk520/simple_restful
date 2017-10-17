@@ -152,6 +152,9 @@ def get():
 
     return jsonify(request.args)
 
+@app.route('{}/hello'.format(api_path))                                           
+def hello():  
+    return 'hello'
 
 if __name__ == '__main__':
     try:

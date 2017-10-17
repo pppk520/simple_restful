@@ -4,8 +4,12 @@
 ## Docker Run                                                                      
 ```bash                                                                         
 sudo make build                                                                 
+sudo make test
 sudo make run HOST_PORT=[your_port]                                             
-                                                                                
+```
+
+Access apidocs from:
+```                                                                               
 http://[you_server]:[your_port]/apidocs                                         
 ``` 
 
