@@ -3,9 +3,12 @@ import os
 import sys
 import json
 import base64
+import gzip
 from flask import stream_with_context
 from flask import jsonify
+from flask import request
 from functools import wraps
+from flask import Response
 
 def check_auth(username, password):
     """This function is called to check if a username /
@@ -68,5 +71,24 @@ def json_required(required_fields=[]):
         return decorated
 
     return decorator
+
+       
+def uncompress(f):                                                           
+    @wraps(f)                                                                   
+    def decorated(*args, **kwargs):                                             
+        alg = request.headers.get('Content-Encoding')
+
+        if alg == 'gzip':
+            request.json = gzip.decompress(request.data).decode('utf-8')
+        elif alg:
+            return api_error_response(code=415,   
+                                      message="Unsupported Content-Encoding",  
+                                      errors=[])
+ 
+        return f(*args, **kwargs)                                               
+                                                                                
+    return decorated  
+ 
+            
 
 

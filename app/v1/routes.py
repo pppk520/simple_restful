@@ -11,6 +11,7 @@ from flask import Blueprint
 
 from ..common import requires_auth
 from ..common import json_required
+from ..common import uncompress
 
 api = Blueprint('api_v1', __name__)
 
@@ -19,6 +20,7 @@ api = Blueprint('api_v1', __name__)
 @json_required(
     required_fields=["user_id"]
 )
+@uncompress
 def post():
     """ HTTP POST demo
     ---

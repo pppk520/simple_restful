@@ -1,4 +1,6 @@
 import unittest
+import json
+from base64 import b64encode
 from flask import Flask
 from flask import url_for
 
@@ -15,6 +17,10 @@ class TestFlaskApi(unittest.TestCase):
 
         self.client = self.app.test_client()
 
+        self.headers = {
+           'Authorization': "Basic {user}".format(user=b64encode(b"user:user").decode())
+        }
+
     def test_hello(self):
         response =  self.client.get(url_for('api_v1.hello'),
                                     content_type='text')
@@ -26,6 +32,26 @@ class TestFlaskApi(unittest.TestCase):
                                     content_type='text')                        
                                                                                 
         self.assertEqual(response.get_data(as_text=True), 'hello v2') 
+
+    def test_post_json_no_required_field(self):
+        response =  self.client.post(url_for('api_v1.post'),   
+                                     data=json.dumps(dict(foo='bar')),
+                                     content_type='application/json',
+                                     headers=self.headers)
+
+        print(response)
+        self.assertEqual(response.status_code, 422)
+
+    def test_post_json(self):                                 
+        response =  self.client.post(url_for('api_v1.post'),                    
+                                     data=json.dumps(dict(user_id='Alice')),          
+                                     content_type='application/json',           
+                                     headers=self.headers)                      
+                                                                                
+        self.assertEqual(response.status_code, 200)
+
+        d = json.loads(response.get_data(as_text=True))
+        self.assertEqual(d['user_id'], 'Alice')
 
 if __name__ == "__main__":
     unittest.main()
