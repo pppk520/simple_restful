@@ -14,5 +14,6 @@ RUN apt-get install -y nginx
 RUN apt-get install -y psmisc
 
 COPY .vimrc /root
+COPY .bashrc /root  
 
 CMD ["/bin/bash"]

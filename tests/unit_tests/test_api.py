@@ -7,8 +7,12 @@ from app import create_app
 class TestFlaskApi(unittest.TestCase):
     def setUp(self):
         self.app = create_app()
+
+        # This context can be used in two ways. 
+        # Either with the with statement or by calling the push() and pop() methods.
         self.app_context = self.app.test_request_context()
         self.app_context.push()
+
         self.client = self.app.test_client()
 
     def test_hello(self):
