@@ -1,5 +1,8 @@
 import unittest
 import json
+import codecs
+import gzip
+from io import BytesIO
 from base64 import b64encode
 from flask import Flask
 from flask import url_for
@@ -20,6 +23,14 @@ class TestFlaskApi(unittest.TestCase):
         self.headers = {
            'Authorization': "Basic {user}".format(user=b64encode(b"user:user").decode())
         }
+
+    def to_gzip_data(self, input_str):
+        out = BytesIO()
+
+        with gzip.GzipFile(fileobj=out, mode="w") as f:
+            f.write(input_str.encode())
+
+        return out.getvalue()
 
     def test_hello(self):
         response =  self.client.get(url_for('api_v1.hello'),
@@ -52,6 +63,19 @@ class TestFlaskApi(unittest.TestCase):
 
         d = json.loads(response.get_data(as_text=True))
         self.assertEqual(d['user_id'], 'Alice')
+
+    def test_post_json_gzip(self):              
+        headers = self.headers.copy()
+        headers['Content-Encoding'] = 'gzip'
+                                     
+        response =  self.client.post(url_for('api_v1.post'),                    
+                                     data=self.to_gzip_data(json.dumps(dict(user_id='Alice'))),
+                                     headers=headers)                      
+                                                                                
+        self.assertEqual(response.status_code, 200)                             
+                                                                                
+        d = json.loads(response.get_data(as_text=True))                         
+        self.assertEqual(d['user_id'], 'Alice')  
 
 if __name__ == "__main__":
     unittest.main()

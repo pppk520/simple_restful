@@ -53,9 +53,13 @@ def json_required(required_fields=[]):
     def decorator(f):
         @wraps(f)
         def decorated(*args, **kwargs):
-            errors = []
+            errors = []            
 
             def check_required_fields(data, fields):
+                # if no application/json, no checking with this function
+                if not data:
+                    return
+
                 for field in fields:
                     if data.get(field) in (None, ''):
                         errors.append('{} is required.'.format(field))
@@ -73,22 +77,6 @@ def json_required(required_fields=[]):
     return decorator
 
        
-def uncompress(f):                                                           
-    @wraps(f)                                                                   
-    def decorated(*args, **kwargs):                                             
-        alg = request.headers.get('Content-Encoding')
-
-        if alg == 'gzip':
-            request.json = gzip.decompress(request.data).decode('utf-8')
-        elif alg:
-            return api_error_response(code=415,   
-                                      message="Unsupported Content-Encoding",  
-                                      errors=[])
- 
-        return f(*args, **kwargs)                                               
-                                                                                
-    return decorated  
- 
             
 
 
