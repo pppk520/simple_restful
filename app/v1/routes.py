@@ -73,7 +73,14 @@ def post():
 
     return jsonify(paras)
 
-@api.route('/get')
+@api.route('/echo', methods=['POST'])
+@requires_auth
+def echo():
+    paras = get_request_json(request)                                           
+            
+    return jsonify(paras) 
+
+@api.route('/get', methods=['GET'])
 @requires_auth
 def get():
     """ HTTP GET demo

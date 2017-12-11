@@ -64,11 +64,12 @@ class TestFlaskApi(unittest.TestCase):
         d = json.loads(response.get_data(as_text=True))
         self.assertEqual(d['user_id'], 'Alice')
 
-    def test_post_json_gzip(self):              
+    def test_echo_json_gzip(self):              
         headers = self.headers.copy()
         headers['Content-Encoding'] = 'gzip'
-                                     
-        response =  self.client.post(url_for('api_v1.post'),                    
+
+        print(headers)
+        response =  self.client.post(url_for('api_v1.echo'),                    
                                      data=self.to_gzip_data(json.dumps(dict(user_id='Alice'))),
                                      headers=headers)                      
                                                                                 
@@ -76,6 +77,18 @@ class TestFlaskApi(unittest.TestCase):
                                                                                 
         d = json.loads(response.get_data(as_text=True))                         
         self.assertEqual(d['user_id'], 'Alice')  
+
+    def test_echo_json_gzip_with_content_json(self):                
+        headers = self.headers.copy()                                           
+        headers['Content-Type'] = 'application/json'                            
+        headers['Content-Encoding'] = 'gzip'                                    
+                                                                                
+        response =  self.client.post(url_for('api_v1.echo'),                    
+                                     data=self.to_gzip_data(json.dumps(dict(user_id='Alice'))),
+                                     headers=headers)                           
+                                                                                
+        d = json.loads(response.get_data(as_text=True))                         
+        self.assertEqual(d['user_id'], 'Alice')   
 
 if __name__ == "__main__":
     unittest.main()
