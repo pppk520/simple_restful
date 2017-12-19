@@ -18,8 +18,15 @@ class TestLogger(unittest.TestCase):
             logging.config.dictConfig(json.load(fd))
 
     def setUp(self):         
-        os.unlink(self.info_log_filepath)                                       
-        os.unlink(self.special_log_filepath) 
+        try:
+            os.unlink(self.info_log_filepath)                                       
+        except:
+            pass
+
+        try:
+            os.unlink(self.special_log_filepath) 
+        except:
+            pass
 
         self.setup_logging()
 
