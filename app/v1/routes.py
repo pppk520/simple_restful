@@ -13,6 +13,8 @@ from flask import Blueprint
 from ..common import requires_auth
 from ..common import json_required
 
+mylogger = logging.getLogger('mylog')
+
 api = Blueprint('api_v1', __name__)
 
 def decompress_data(alg, data):
@@ -70,6 +72,8 @@ def post():
     """
     
     paras = get_request_json(request)
+
+    mylogger.info(paras)
 
     return jsonify(paras)
 

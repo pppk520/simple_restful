@@ -33,7 +33,18 @@
             "maxBytes": 10485760,                   
             "backupCount": 20,    
             "encoding": "utf-8"                                                  
-        }
+        },
+
+        "mylog_file_handler": {                                               
+            "class": "mylog.TimedMultiProcessingHandler",  
+            "level": "INFO",                                                    
+            "formatter": "simple",                                              
+            "filename": "/tmp/my.log",
+            "when": "M",
+            "interval": 1,
+            "backupCount": 10,    
+            "encoding": "utf-8"                                                 
+        }  
     },
 
     "root": {
@@ -46,6 +57,11 @@
             "level": "INFO",
             "propagate": false,
             "handlers": ["special_file_handler"]
+        },
+        "mylog": {                                                            
+            "level": "INFO",                                                    
+            "propagate": false,                                                 
+            "handlers": ["mylog_file_handler"]                                
         }
     }
 }
